@@ -1,0 +1,32 @@
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let col of cols">{{ col.label }}</th>
+      <th>EDIT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of rows; let i = index">
+      <td *ngFor="let col of cols">
+        <span *ngIf="editModeActivated != i">{{ row[col.key] }}</span>
+        <input
+          type="text"
+          *ngIf="editModeActivated == i"
+          [(ngModel)]="rowInEdit[col.key]"
+        />
+      </td>
+      <td>
+        <button
+          *ngIf="editModeActivated != i"
+          [disabled]="editModeActivated != null"
+          (click)="edit(i, row)"
+        >
+          EDIT
+        </button>
+        <button *ngIf="editModeActivated == i" (click)="save(i, row)">
+          SAVE
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
