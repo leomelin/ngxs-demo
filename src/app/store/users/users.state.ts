@@ -8,6 +8,8 @@ export class UsersStateModel {
   users: User[];
 }
 
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 @State<UsersStateModel>({
   name: NAME,
   defaults: {
@@ -22,10 +24,9 @@ export class UsersState {
 
   @Action(GetUsers)
   async getUsers({ dispatch }: StateContext<UsersStateModel>) {
-    setTimeout(() => {
-      // mock getting users
-      dispatch(new GetUsersSuccess(mockUsers.default));
-    }, 2000);
+    await wait(2000);
+    // mock getting users
+    dispatch(new GetUsersSuccess(mockUsers.default));
   }
 
   @Action(GetUsersSuccess)
@@ -45,9 +46,12 @@ export class UsersState {
   ) {
     const users = getState().users;
     const foundUserIndex = users.findIndex(u => u.id === user.id);
-    users[foundUserIndex] = user;
     patchState({
-      users
+      users: [
+        ...users.slice(0, foundUserIndex),
+        user,
+        ...users.slice(foundUserIndex + 1)
+      ]
     });
   }
 }
