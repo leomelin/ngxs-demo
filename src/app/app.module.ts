@@ -7,11 +7,13 @@ import { NgxsModule } from '@ngxs/store';
 import { UsersState } from './store/users/users.state';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { FormsModule } from '@angular/forms';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
   declarations: [AppComponent, TableComponent],
   imports: [
     BrowserModule,
+    Ng4LoadingSpinnerModule.forRoot(),
     NgxsModule.forRoot([UsersState]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     FormsModule
