@@ -4,6 +4,7 @@ import { Col } from '../models/col';
 export type ModifyEvent = {
   index: number;
   row: any;
+  callback?: () => void;
 };
 
 @Component({
@@ -42,10 +43,12 @@ export class TableComponent implements OnInit {
   }
 
   save(index: number, row: any) {
-    this.editModeActivated = null;
     this.saveClicked.emit({
       index,
-      row: this.rowInEdit
+      row: this.rowInEdit,
+      callback: () => {
+        this.editModeActivated = null;
+      }
     });
   }
 }

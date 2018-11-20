@@ -16,3 +16,9 @@ export class SaveUser {
 
   constructor(public user: User) {}
 }
+
+export class SaveUserSuccess {
+  static readonly type = `[${NAME}] SaveUserSuccess`;
+
+  constructor(public user: User) {}
+}

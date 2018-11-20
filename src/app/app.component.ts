@@ -6,6 +6,7 @@ import { User } from './models/user';
 import { Observable } from 'rxjs/index';
 import { UsersState } from './store/users/users.state';
 import { ModifyEvent } from './table/table.component';
+import { SpinnerState } from './store/spinner/spinner.state';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,9 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  @Select(SpinnerState.isSpinnerVisible)
+  loading: Observable<boolean>;
+
   @Select(UsersState.users)
   users$: Observable<User[]>;
 
@@ -37,7 +41,8 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new GetUsers());
   }
 
-  saveUser(e: ModifyEvent) {
-    this.store.dispatch(new SaveUser(e.row));
+  async saveUser(e: ModifyEvent) {
+    await this.store.dispatch(new SaveUser(e.row)).toPromise();
+    e.callback();
   }
 }
